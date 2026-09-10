@@ -1,181 +1,278 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Stonks — демо на генератора</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Stonks Generator</title>
 <style>
   :root {
-    --bg: #0f1115;
-    --card: #171a21;
-    --border: #2a2f3a;
-    --green: #16c784;
-    --red: #ea3943;
+    --bg-dark: #0f1419;
+    --bg-card: #1a1f2e;
     --text: #e8eaed;
-    --muted: #9aa0ac;
+    --text-muted: #9aa0ac;
+    --accent: #16c784;
+    --accent-dark: #0b7c59;
   }
-  * { box-sizing: border-box; }
-  body {
+
+  * {
+    box-sizing: border-box;
     margin: 0;
-    min-height: 100vh;
-    background: radial-gradient(circle at 50% 0%, #1c2130, var(--bg));
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1c2540 100%);
     color: var(--text);
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 24px;
-    padding: 40px 16px;
+    gap: 20px;
   }
-  h1 { margin: 0; font-size: 28px; letter-spacing: 0.5px; }
-  p.sub { margin: 0; color: var(--muted); text-align: center; max-width: 480px; }
 
-  #stonkFab {
-    padding: 14px 28px;
+  .container {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--accent), #00d4aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+
+  .button {
+    width: 100%;
+    padding: 14px 20px;
     font-size: 16px;
     font-weight: 600;
-    color: #0f1115;
-    background: var(--green);
+    background: linear-gradient(135deg, var(--accent), #0da572);
+    color: #0f1419;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(22, 199, 132, 0.35);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 12px rgba(22, 199, 132, 0.25);
   }
-  #stonkFab:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(22, 199, 132, 0.45); }
-  #stonkFab:active { transform: translateY(0); }
 
-  .overlay {
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(22, 199, 132, 0.35);
+  }
+
+  .button:active {
+    transform: translateY(0);
+  }
+
+  .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(5, 6, 10, 0.72);
-    backdrop-filter: blur(3px);
+    background: rgba(15, 20, 25, 0.85);
+    backdrop-filter: blur(4px);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     padding: 16px;
   }
-  .overlay.open { display: flex; }
+
+  .modal-overlay.open {
+    display: flex;
+  }
 
   .modal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    width: 100%;
-    max-width: 420px;
-    padding: 22px;
-    position: relative;
-    animation: pop 0.18s ease;
-  }
-  @keyframes pop {
-    from { transform: scale(0.92); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-  }
-
-  .modal h2 { margin: 0 0 2px; font-size: 20px; }
-  .modal .rank { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
-
-  .canvas-wrap {
-    display: flex;
-    justify-content: center;
-    background: #0b0d12;
+    background: var(--bg-card);
+    border: 1px solid #2a3142;
     border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 14px;
+    max-width: 500px;
+    width: 100%;
+    padding: 24px;
+    position: relative;
+    animation: slideIn 0.2s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  @keyframes slideIn {
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
   }
-  canvas {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    width: 260px;
-    height: 260px;
+
+  .modal-title {
+    font-size: 20px;
+    font-weight: 600;
   }
 
-  .traits {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 18px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 14px;
-    font-size: 13px;
-  }
-  .traits li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; }
-  .traits li span.label { color: var(--muted); }
-  .tier-rare span.value, .tier-legendary span.value { color: #f0b90b; font-weight: 600; }
-  .tier-uncommon span.value { color: #58a6ff; }
-
-  .modal-actions { display: flex; gap: 10px; }
-  .modal-actions button {
-    flex: 1;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: #1f2430;
-    color: var(--text);
-    font-size: 14px;
-    cursor: pointer;
-  }
-  .modal-actions button.primary { background: var(--green); color: #0f1115; border: none; font-weight: 600; }
-  .modal-actions button:hover { filter: brightness(1.08); }
-
-  .close-x {
-    position: absolute;
-    top: 12px;
-    right: 14px;
+  .modal-close {
     background: none;
     border: none;
-    color: var(--muted);
-    font-size: 20px;
+    color: var(--text-muted);
+    font-size: 24px;
     cursor: pointer;
+    padding: 4px;
     line-height: 1;
   }
 
-  .jump-row { display:flex; gap:8px; margin-top: 10px; }
-  .jump-row input {
-    flex: 1;
-    background: #0b0d12;
-    border: 1px solid var(--border);
+  .modal-close:hover {
     color: var(--text);
+  }
+
+  .rarity-badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    background: #2a3142;
+    color: var(--text-muted);
+  }
+
+  .rarity-badge.legendary { background: #8b5a00; color: #ffd700; }
+  .rarity-badge.rare { background: #4a3d8e; color: #a78bfa; }
+  .rarity-badge.uncommon { background: #1a5f3e; color: #58a6ff; }
+
+  .canvas-wrap {
+    background: linear-gradient(135deg, #1a1f2e, #0f1419);
+    border: 1px solid #2a3142;
     border-radius: 8px;
-    padding: 8px 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+  }
+
+  canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .traits-list {
+    list-style: none;
+    margin-bottom: 16px;
+    background: #0f1419;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .traits-list li {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1f2e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 13px;
   }
-  .jump-row button { border-radius: 8px; border: 1px solid var(--border); background: #1f2430; color: var(--text); padding: 8px 12px; cursor:pointer; font-size: 13px; }
+
+  .traits-list li:last-child {
+    border-bottom: none;
+  }
+
+  .trait-label {
+    color: var(--text-muted);
+  }
+
+  .trait-value {
+    font-weight: 500;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-secondary {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #2a3142;
+    background: #1a1f2e;
+    color: var(--text);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+
+  .btn-secondary:hover {
+    background: #252d3d;
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px;
+  }
+
+  .spinner {
+    border: 2px solid #2a3142;
+    border-top: 2px solid var(--accent);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 0.8s linear infinite;
+    margin: 10px auto;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
 
-  <h1>🕹️ The Stonks — Easter Egg демо</h1>
-  <p class="sub">
-    Натисни бутона, за да изтеглиш случаен Stonk от колекцията от 10 000 уникални
-    пикселови персонажа. Това е примерна интеграция — копирай логиката в своя сайт.
-  </p>
+  <div class="container">
+    <h1>🕯️ The Stonks</h1>
+    <p class="subtitle">10,000 уникални Stonk персонажа<br>Натисни за случаен Stonk</p>
+    <button class="button" id="generateBtn">Генерирай Stonk</button>
+  </div>
 
-  <button id="stonkFab">🎲 Покажи ми моя Stonk</button>
-
-  <div class="overlay" id="stonkOverlay">
+  <div class="modal-overlay" id="modal">
     <div class="modal">
-      <button class="close-x" id="closeModal">✕</button>
-      <h2 id="stonkTitle">Stonk #0000</h2>
-      <div class="rank" id="stonkRank">Rarity rank —</div>
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="title">Stonk #0000</div>
+          <div class="rarity-badge" id="rarity">Rank —</div>
+        </div>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
 
       <div class="canvas-wrap">
-        <canvas id="stonkCanvas" width="360" height="360"></canvas>
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <p>Зареждане на Stonk...</p>
+        </div>
+        <canvas id="canvas" width="512" height="512" style="display:none;"></canvas>
       </div>
 
-      <ul class="traits" id="stonkTraits"></ul>
+      <ul class="traits-list" id="traits"></ul>
 
       <div class="modal-actions">
-        <button id="rerollBtn">🎲 Друг случаен</button>
-        <button id="closeBtn" class="primary">Затвори</button>
-      </div>
-
-      <div class="jump-row">
-        <input id="jumpInput" type="number" min="1" max="10000" placeholder="Отиди на # (1-10000)">
-        <button id="jumpBtn">Виж</button>
+        <button class="btn-secondary" id="randomBtn">🎲 Друг</button>
+        <button class="button" style="flex: 1;" id="closeBtn">Затвори</button>
       </div>
     </div>
   </div>
@@ -184,53 +281,68 @@
   import { StonkGenerator } from './js/stonk-generator.js';
 
   const gen = new StonkGenerator({ basePath: '.' });
-  const overlay = document.getElementById('stonkOverlay');
-  const canvas = document.getElementById('stonkCanvas');
-  const titleEl = document.getElementById('stonkTitle');
-  const rankEl = document.getElementById('stonkRank');
-  const traitsEl = document.getElementById('stonkTraits');
+  const modal = document.getElementById('modal');
+  const canvas = document.getElementById('canvas');
+  const loading = document.getElementById('loading');
+  const title = document.getElementById('title');
+  const rarity = document.getElementById('rarity');
+  const traits = document.getElementById('traits');
 
-  let ready = gen.load(); // fetch-ва config + collection веднъж
+  let ready = gen.load().then(() => console.log('Generator ready'));
 
   async function openStonk(id) {
     await ready;
+    loading.style.display = 'block';
+    canvas.style.display = 'none';
+    modal.classList.add('open');
+
     const info = gen.getStonk(id);
-    await gen.render(id, canvas, { size: 360 });
+    
+    title.textContent = `Stonk #${String(info.id).padStart(4, '0')}`;
+    rarity.textContent = `Rank: ${info.rarityRank} / ${info.totalSupply}`;
+    rarity.className = 'rarity-badge';
 
-    titleEl.textContent = `Stonk #${String(info.id).padStart(4, '0')}`;
-    rankEl.textContent = `Rarity rank: ${info.rarityRank} / ${info.totalSupply}`;
-
-    traitsEl.innerHTML = info.traits
-      .map(
-        (t) => `<li class="tier-${t.rarityTier}">
-          <span class="label">${t.label}</span>
-          <span class="value">${t.name}</span>
-        </li>`
-      )
+    traits.innerHTML = info.traits
+      .map((t) => {
+        const tierClass = t.rarityTier === 'legendary' ? 'legendary' : 
+                         t.rarityTier === 'rare' ? 'rare' :
+                         t.rarityTier === 'uncommon' ? 'uncommon' : '';
+        return `<li>
+          <span class="trait-label">${t.label}</span>
+          <span class="trait-value">${t.name}</span>
+        </li>`;
+      })
       .join('');
 
-    overlay.classList.add('open');
+    try {
+      await gen.render(id, canvas);
+      loading.style.display = 'none';
+      canvas.style.display = 'block';
+    } catch (err) {
+      console.error(err);
+      loading.innerHTML = `<p style="color:#ef4444">Грешка: ${err.message}</p>`;
+    }
   }
 
-  document.getElementById('stonkFab').addEventListener('click', async () => {
+  document.getElementById('generateBtn').addEventListener('click', async () => {
     await ready;
     openStonk(gen.randomId());
   });
 
-  document.getElementById('rerollBtn').addEventListener('click', async () => {
+  document.getElementById('randomBtn').addEventListener('click', async () => {
     await ready;
     openStonk(gen.randomId());
   });
 
-  document.getElementById('jumpBtn').addEventListener('click', () => {
-    const val = parseInt(document.getElementById('jumpInput').value, 10);
-    if (val >= 1 && val <= 10000) openStonk(val);
-  });
+  function closeModal() {
+    modal.classList.remove('open');
+  }
 
-  function closeModal() { overlay.classList.remove('open'); }
   document.getElementById('closeModal').addEventListener('click', closeModal);
   document.getElementById('closeBtn').addEventListener('click', closeModal);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
 </script>
 </body>
 </html>

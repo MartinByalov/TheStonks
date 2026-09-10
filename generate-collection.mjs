@@ -1,16 +1,8 @@
 #!/usr/bin/env node
 /**
  * Генерира data/stonks-collection.json - таблица от 10 000 гарантирано
- * уникални комбинации от трейтове за "The Stonks" NFT колекцията.
- *
- * Това е ЕДНОКРАТЕН build-скрипт (Node.js) - НЕ се качва на сайта и не се
- * изпълнява от посетителите. Пуска се само локално, когато искаш да
- * пренаредиш rarity тежестите в data/traits-config.json. Самият сайт
- * използва само готовия JSON резултат + js/stonk-generator.js (чист браузърен
- * JavaScript, без Node/Python).
- *
- * Употреба:
- *   node generate-collection.mjs
+ * уникални комбинации. Управлява body_type зависимостта (останалите слоеве 
+ * имат папки за всеки body type).
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -21,9 +13,9 @@ const CONFIG_PATH = join(HERE, 'data', 'traits-config.json');
 const OUTPUT_PATH = join(HERE, 'data', 'stonks-collection.json');
 
 const TOTAL_SUPPLY = 10000;
-const COLLECTION_SEED = 'the-stonks-v1'; // смени го за различна подредба
+const COLLECTION_SEED = 'stonks-v1';
 
-// --- детерминиран seeded PRNG (mulberry32 + string hash) ---------------
+// --- Seeded PRNG ---
 function hashSeed(str) {
   let h = 1779033703 ^ str.length;
   for (let i = 0; i < str.length; i++) {
@@ -66,6 +58,7 @@ function weightedChoice(rng, options, noneWeight = 0) {
 
 function main() {
   const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf-8'));
+  const bodyTypes = config.bodyTypes;
   const categories = config.categories;
   const rng = makeRng(COLLECTION_SEED);
 
@@ -79,33 +72,69 @@ function main() {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       attempts++;
-      traits = {};
+      
+      // Избираме body_type първо
+      const bodyTypeIndex = weightedChoice(rng, bodyTypes.map((bt, idx) => ({ 
+        id: idx, 
+        weight: bt.weight 
+      })));
+      const selectedBodyType = bodyTypes[bodyTypeIndex];
+      
+      traits = { bodyType: selectedBodyType.id };
+      
+      // За всяка категория избираме трейт
       for (const cat of categories) {
-        const noneWeight = cat.required ? 0 : cat.noneWeight || 0;
-        traits[cat.key] = weightedChoice(rng, cat.options, noneWeight);
+        if (cat.key === 'body') {
+          // Body е специален - зависи от body_type
+          const noneWeight = cat.required ? 0 : (cat.noneWeight || 0);
+          traits.body = weightedChoice(rng, cat.options, noneWeight);
+        } else if (cat.bodyTypeAgnostic) {
+          // Фон и графика не зависят от body_type
+          const noneWeight = cat.required ? 0 : (cat.noneWeight || 0);
+          traits[cat.key] = weightedChoice(rng, cat.options, noneWeight);
+        } else {
+          // Всички други зависят от body_type
+          const noneWeight = cat.required ? 0 : (cat.noneWeight || 0);
+          traits[cat.key] = weightedChoice(rng, cat.options, noneWeight);
+        }
       }
-      comboKey = categories.map((c) => traits[c.key]).join('|');
+      
+      // Ключ за уникалност: body_type + всички трейти
+      comboKey = `${traits.bodyType}|${
+        categories.map(c => traits[c.key]).join('|')
+      }`;
+      
       if (!seenCombos.has(comboKey)) {
         seenCombos.add(comboKey);
         break;
       }
-      // колизия (изключително рядко) -> хвърли зара пак за този token
     }
+    
     collection.push({ id: tokenId, traits });
   }
 
-  // --- rarity score: сбор от 1/relativeFrequency за всеки избран трейт ---
+  // --- Rarity score ---
   const freq = {};
   for (const cat of categories) {
-    const noneWeight = cat.required ? 0 : cat.noneWeight || 0;
+    const noneWeight = cat.required ? 0 : (cat.noneWeight || 0);
     const totalW = noneWeight + cat.options.reduce((s, o) => s + o.weight, 0);
     freq[cat.key] = {};
     if (noneWeight) freq[cat.key]['null'] = noneWeight / totalW;
-    for (const o of cat.options) freq[cat.key][o.id] = o.weight / totalW;
+    for (const o of cat.options) {
+      freq[cat.key][o.id] = o.weight / totalW;
+    }
+  }
+  
+  // Тежест за body_type
+  const bodyTypeFreq = {};
+  const totalBT = bodyTypes.reduce((s, bt) => s + bt.weight, 0);
+  for (const bt of bodyTypes) {
+    bodyTypeFreq[bt.id] = bt.weight / totalBT;
   }
 
   for (const entry of collection) {
     let score = 0;
+    score += 1 / (bodyTypeFreq[entry.traits.bodyType] || 0.001);
     for (const cat of categories) {
       const val = entry.traits[cat.key];
       const p = freq[cat.key][val === null ? 'null' : val] ?? 0.0001;
@@ -130,9 +159,9 @@ function main() {
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(output));
 
-  console.log(`Готово: ${TOTAL_SUPPLY} уникални Stonk-а записани в ${OUTPUT_PATH}`);
-  console.log(`Общо опити (вкл. препокривания): ${attempts}`);
-  console.log(`Препокривания, разрешени чрез повторно хвърляне: ${attempts - TOTAL_SUPPLY}`);
+  console.log(`✓ ${TOTAL_SUPPLY} уникални Stonks записани в ${OUTPUT_PATH}`);
+  console.log(`  Всичко опити: ${attempts}`);
+  console.log(`  Преповторения (collisions): ${attempts - TOTAL_SUPPLY}`);
 }
 
 main();
