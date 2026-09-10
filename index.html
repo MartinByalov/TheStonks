@@ -1,348 +1,1116 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Stonks Generator</title>
-<style>
-  :root {
-    --bg-dark: #0f1419;
-    --bg-card: #1a1f2e;
-    --text: #e8eaed;
-    --text-muted: #9aa0ac;
-    --accent: #16c784;
-    --accent-dark: #0b7c59;
-  }
+  <meta charset="UTF-8" />
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, var(--bg-dark) 0%, #1c2540 100%);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
+  <title>The Stonks</title>
 
-  .container {
-    max-width: 600px;
-    width: 100%;
-  }
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --border: #2a2f3a;
 
-  h1 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--accent), #00d4aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+      --green: #16c784;
+      --red: #ea3943;
 
-  .subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 30px;
-    font-size: 14px;
-  }
+      --text: #e8eaed;
+      --muted: #9aa0ac;
 
-  .button {
-    width: 100%;
-    padding: 14px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--accent), #0da572);
-    color: #0f1419;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 12px rgba(22, 199, 132, 0.25);
-  }
+      --gold: #f0b90b;
+      --blue: #58a6ff;
+    }
 
-  .button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(22, 199, 132, 0.35);
-  }
 
-  .button:active {
-    transform: translateY(0);
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 20, 25, 0.85);
-    backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 16px;
-  }
 
-  .modal-overlay.open {
-    display: flex;
-  }
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
 
-  .modal {
-    background: var(--bg-card);
-    border: 1px solid #2a3142;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 100%;
-    padding: 24px;
-    position: relative;
-    animation: slideIn 0.2s ease;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
 
-  @keyframes slideIn {
-    from { transform: scale(0.96); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
+    body {
+      min-height: 100vh;
 
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          #1c2130,
+          var(--bg)
+        );
 
-  .modal-title {
-    font-size: 20px;
-    font-weight: 600;
-  }
+      color: var(--text);
 
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 24px;
-    cursor: pointer;
-    padding: 4px;
-    line-height: 1;
-  }
+      font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
 
-  .modal-close:hover {
-    color: var(--text);
-  }
+      display: flex;
 
-  .rarity-badge {
-    display: inline-block;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-top: 6px;
-    background: #2a3142;
-    color: var(--text-muted);
-  }
+      align-items: center;
+      justify-content: center;
 
-  .rarity-badge.legendary { background: #8b5a00; color: #ffd700; }
-  .rarity-badge.rare { background: #4a3d8e; color: #a78bfa; }
-  .rarity-badge.uncommon { background: #1a5f3e; color: #58a6ff; }
+      padding: 32px 16px;
+    }
 
-  .canvas-wrap {
-    background: linear-gradient(135deg, #1a1f2e, #0f1419);
-    border: 1px solid #2a3142;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 280px;
-  }
 
-  canvas {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    max-width: 100%;
-    height: auto;
-  }
+    .app {
+      width: 100%;
+      max-width: 900px;
+    }
 
-  .traits-list {
-    list-style: none;
-    margin-bottom: 16px;
-    background: #0f1419;
-    border-radius: 6px;
-    overflow: hidden;
-  }
 
-  .traits-list li {
-    padding: 10px 12px;
-    border-bottom: 1px solid #1a1f2e;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-  }
+    /* ========================================================
+       HEADER
+       ======================================================== */
 
-  .traits-list li:last-child {
-    border-bottom: none;
-  }
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
 
-  .trait-label {
-    color: var(--text-muted);
-  }
 
-  .trait-value {
-    font-weight: 500;
-  }
+    h1 {
+      margin: 0;
 
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-  }
+      font-size: 32px;
+      font-weight: 700;
 
-  .btn-secondary {
-    flex: 1;
-    padding: 10px 14px;
-    border: 1px solid #2a3142;
-    background: #1a1f2e;
-    color: var(--text);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.15s;
-  }
+      letter-spacing: 0.5px;
+    }
 
-  .btn-secondary:hover {
-    background: #252d3d;
-  }
 
-  .loading {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 20px;
-  }
+    .subtitle {
+      margin: 8px auto 0;
 
-  .spinner {
-    border: 2px solid #2a3142;
-    border-top: 2px solid var(--accent);
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    animation: spin 0.8s linear infinite;
-    margin: 10px auto;
-  }
+      max-width: 600px;
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-</style>
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+
+    /* ========================================================
+       MAIN CARD
+       ======================================================== */
+
+    .card {
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 22px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.28);
+    }
+
+
+    /* ========================================================
+       CONTROLS
+       ======================================================== */
+
+    .controls {
+      display: flex;
+
+      gap: 10px;
+
+      margin-bottom: 20px;
+    }
+
+
+    button,
+    input {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    .primary-button {
+      flex: 1;
+
+      border: none;
+
+      border-radius: 10px;
+
+      padding: 12px 16px;
+
+      background: var(--green);
+
+      color: #0f1115;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+    }
+
+
+    .primary-button:hover {
+      filter: brightness(1.08);
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    .secondary-button {
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+
+      padding: 12px 16px;
+
+      background: #1f2430;
+
+      color: var(--text);
+
+      font-size: 14px;
+
+      transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+    }
+
+
+    .secondary-button:hover {
+      filter: brightness(1.08);
+    }
+
+
+    /* ========================================================
+       NFT DISPLAY
+       ======================================================== */
+
+    .nft-layout {
+      display: grid;
+
+      grid-template-columns:
+        minmax(300px, 1fr)
+        minmax(280px, 1fr);
+
+      gap: 22px;
+
+      align-items: start;
+    }
+
+
+    .canvas-wrap {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      background: #0b0d12;
+
+      border: 1px solid var(--border);
+
+      border-radius: 14px;
+
+      padding: 18px;
+
+      min-height: 420px;
+    }
+
+
+    canvas {
+      display: block;
+
+      width: min(100%, 380px);
+      height: auto;
+
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+
+      background: transparent;
+    }
+
+
+    /* ========================================================
+       NFT INFORMATION
+       ======================================================== */
+
+    .info {
+      min-width: 0;
+    }
+
+
+    .token-title {
+      margin: 0;
+
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+
+    .rarity {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+
+    .traits-title {
+      margin:
+        22px 0 10px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+
+    .traits {
+      list-style: none;
+
+      padding: 0;
+      margin: 0;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 8px 14px;
+    }
+
+
+    .traits li {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      gap: 8px;
+
+      min-width: 0;
+
+      padding-bottom: 6px;
+
+      border-bottom:
+        1px dashed
+        var(--border);
+
+      font-size: 13px;
+    }
+
+
+    .trait-label {
+      color: var(--muted);
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+
+    .trait-value {
+      text-align: right;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      color: var(--text);
+    }
+
+
+    .trait-none {
+      color: #666d78;
+    }
+
+
+    .trait-rare {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+
+    .trait-legendary {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+
+    .trait-uncommon {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+
+    /* ========================================================
+       JUMP TO TOKEN
+       ======================================================== */
+
+    .jump-section {
+      margin-top: 22px;
+    }
+
+
+    .jump-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    .jump-row {
+      display: flex;
+
+      gap: 8px;
+    }
+
+
+    .jump-row input {
+      flex: 1;
+
+      min-width: 0;
+
+      background: #0b0d12;
+
+      border: 1px solid var(--border);
+
+      color: var(--text);
+
+      border-radius: 9px;
+
+      padding: 10px 12px;
+
+      outline: none;
+    }
+
+
+    .jump-row input:focus {
+      border-color:
+        var(--green);
+    }
+
+
+    .jump-row button {
+      border: 1px solid var(--border);
+
+      background: #1f2430;
+
+      color: var(--text);
+
+      border-radius: 9px;
+
+      padding:
+        10px 16px;
+
+      font-size: 13px;
+    }
+
+
+    /* ========================================================
+       STATUS
+       ======================================================== */
+
+    .status {
+      margin-top: 14px;
+
+      min-height: 18px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    .status.error {
+      color: var(--red);
+    }
+
+
+    .status.success {
+      color: var(--green);
+    }
+
+
+    /* ========================================================
+       MOBILE
+       ======================================================== */
+
+    @media (max-width: 720px) {
+      body {
+        padding:
+          18px 12px;
+      }
+
+
+      h1 {
+        font-size: 26px;
+      }
+
+
+      .card {
+        padding: 14px;
+
+        border-radius: 14px;
+      }
+
+
+      .nft-layout {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .canvas-wrap {
+        min-height: auto;
+
+        padding: 12px;
+      }
+
+
+      canvas {
+        width: min(
+          100%,
+          360px
+        );
+      }
+
+
+      .traits {
+        grid-template-columns:
+          1fr 1fr;
+      }
+    }
+
+
+    @media (max-width: 460px) {
+      .controls {
+        flex-direction: column;
+      }
+
+
+      .traits {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .traits li {
+        font-size: 13px;
+      }
+
+
+      .jump-row {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
+
 <body>
 
-  <div class="container">
-    <h1>🕯️ The Stonks</h1>
-    <p class="subtitle">10,000 уникални Stonk персонажа<br>Натисни за случаен Stonk</p>
-    <button class="button" id="generateBtn">Генерирай Stonk</button>
-  </div>
+  <main class="app">
 
-  <div class="modal-overlay" id="modal">
-    <div class="modal">
-      <div class="modal-header">
-        <div>
-          <div class="modal-title" id="title">Stonk #0000</div>
-          <div class="rarity-badge" id="rarity">Rank —</div>
+    <header>
+      <h1>The Stonks</h1>
+
+      <p class="subtitle">
+        Explore the 10,000 unique pixel-art Stonks collection.
+      </p>
+    </header>
+
+
+    <section class="card">
+
+      <!-- ====================================================
+           CONTROLS
+      ===================================================== -->
+
+      <div class="controls">
+
+        <button
+          id="randomBtn"
+          class="primary-button"
+        >
+          🎲 Random Stonk
+        </button>
+
+        <button
+          id="copyBtn"
+          class="secondary-button"
+        >
+          Copy Number
+        </button>
+
+      </div>
+
+
+      <!-- ====================================================
+           NFT
+      ===================================================== -->
+
+      <div class="nft-layout">
+
+        <div class="canvas-wrap">
+          <canvas
+            id="stonkCanvas"
+            width="512"
+            height="512"
+          ></canvas>
         </div>
-        <button class="modal-close" id="closeModal">✕</button>
-      </div>
 
-      <div class="canvas-wrap">
-        <div id="loading" class="loading">
-          <div class="spinner"></div>
-          <p>Зареждане на Stonk...</p>
+
+        <div class="info">
+
+          <h2
+            id="stonkTitle"
+            class="token-title"
+          >
+            Stonk #0001
+          </h2>
+
+
+          <div
+            id="stonkRank"
+            class="rarity"
+          >
+            Rarity Rank —
+          </div>
+
+
+          <div class="traits-title">
+            Traits
+          </div>
+
+
+          <ul
+            id="stonkTraits"
+            class="traits"
+          ></ul>
+
+
+          <!-- ==================================================
+               JUMP TO NFT
+          =================================================== -->
+
+          <div class="jump-section">
+
+            <label
+              class="jump-label"
+              for="jumpInput"
+            >
+              View Stonk Number
+            </label>
+
+
+            <div class="jump-row">
+
+              <input
+                id="jumpInput"
+                type="number"
+                min="1"
+                max="10000"
+                placeholder="1 - 10000"
+              />
+
+
+              <button
+                id="jumpBtn"
+              >
+                View
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="status"
+            class="status"
+          ></div>
+
         </div>
-        <canvas id="canvas" width="512" height="512" style="display:none;"></canvas>
+
       </div>
 
-      <ul class="traits-list" id="traits"></ul>
+    </section>
 
-      <div class="modal-actions">
-        <button class="btn-secondary" id="randomBtn">🎲 Друг</button>
-        <button class="button" style="flex: 1;" id="closeBtn">Затвори</button>
-      </div>
-    </div>
-  </div>
+  </main>
 
-<script type="module">
-  import { StonkGenerator } from './js/stonk-generator.js';
 
-  const gen = new StonkGenerator({ basePath: '.' });
-  const modal = document.getElementById('modal');
-  const canvas = document.getElementById('canvas');
-  const loading = document.getElementById('loading');
-  const title = document.getElementById('title');
-  const rarity = document.getElementById('rarity');
-  const traits = document.getElementById('traits');
+  <!-- ========================================================
+       SCRIPT
+  ========================================================= -->
 
-  let ready = gen.load().then(() => console.log('Generator ready'));
+  <script type="module">
 
-  async function openStonk(id) {
-    await ready;
-    loading.style.display = 'block';
-    canvas.style.display = 'none';
-    modal.classList.add('open');
+    import {
+      StonkGenerator
+    } from './js/stonk-generator.js';
 
-    const info = gen.getStonk(id);
-    
-    title.textContent = `Stonk #${String(info.id).padStart(4, '0')}`;
-    rarity.textContent = `Rank: ${info.rarityRank} / ${info.totalSupply}`;
-    rarity.className = 'rarity-badge';
 
-    traits.innerHTML = info.traits
-      .map((t) => {
-        const tierClass = t.rarityTier === 'legendary' ? 'legendary' : 
-                         t.rarityTier === 'rare' ? 'rare' :
-                         t.rarityTier === 'uncommon' ? 'uncommon' : '';
-        return `<li>
-          <span class="trait-label">${t.label}</span>
-          <span class="trait-value">${t.name}</span>
-        </li>`;
-      })
-      .join('');
+    // ========================================================
+    // INITIALIZE
+    // ========================================================
 
-    try {
-      await gen.render(id, canvas);
-      loading.style.display = 'none';
-      canvas.style.display = 'block';
-    } catch (err) {
-      console.error(err);
-      loading.innerHTML = `<p style="color:#ef4444">Грешка: ${err.message}</p>`;
+    const generator =
+      new StonkGenerator({
+        basePath: '.'
+      });
+
+
+    const canvas =
+      document.getElementById(
+        'stonkCanvas'
+      );
+
+
+    const titleEl =
+      document.getElementById(
+        'stonkTitle'
+      );
+
+
+    const rankEl =
+      document.getElementById(
+        'stonkRank'
+      );
+
+
+    const traitsEl =
+      document.getElementById(
+        'stonkTraits'
+      );
+
+
+    const statusEl =
+      document.getElementById(
+        'status'
+      );
+
+
+    const jumpInput =
+      document.getElementById(
+        'jumpInput'
+      );
+
+
+    let currentId = null;
+
+    let ready = false;
+
+
+    // ========================================================
+    // STATUS
+    // ========================================================
+
+    function setStatus(
+      message,
+      type = ''
+    ) {
+      statusEl.textContent =
+        message;
+
+      statusEl.className =
+        `status ${type}`;
     }
-  }
 
-  document.getElementById('generateBtn').addEventListener('click', async () => {
-    await ready;
-    openStonk(gen.randomId());
-  });
 
-  document.getElementById('randomBtn').addEventListener('click', async () => {
-    await ready;
-    openStonk(gen.randomId());
-  });
+    // ========================================================
+    // ESCAPE HTML
+    // ========================================================
 
-  function closeModal() {
-    modal.classList.remove('open');
-  }
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
 
-  document.getElementById('closeModal').addEventListener('click', closeModal);
-  document.getElementById('closeBtn').addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-</script>
+
+    // ========================================================
+    // OPEN NFT
+    // ========================================================
+
+    async function openNFT(id) {
+
+      if (!ready) {
+        return;
+      }
+
+
+      const numericId =
+        Number(id);
+
+
+      if (
+        !Number.isInteger(
+          numericId
+        ) ||
+        numericId < 1 ||
+        numericId >
+          generator.totalSupply
+      ) {
+        setStatus(
+          `NFT number must be between 1 and ${generator.totalSupply}.`,
+          'error'
+        );
+
+        return;
+      }
+
+
+      try {
+
+        setStatus(
+          'Loading Stonk...'
+        );
+
+
+        // ----------------------------------------------------
+        // Get token information
+        // ----------------------------------------------------
+
+        const info =
+          generator.getStonk(
+            numericId
+          );
+
+
+        // ----------------------------------------------------
+        // Render artwork
+        // ----------------------------------------------------
+
+        await generator.render(
+          numericId,
+          canvas,
+          {
+            size: 512
+          }
+        );
+
+
+        // ----------------------------------------------------
+        // Current token
+        // ----------------------------------------------------
+
+        currentId =
+          info.id;
+
+
+        // ----------------------------------------------------
+        // Title
+        // ----------------------------------------------------
+
+        titleEl.textContent =
+          `Stonk #${String(
+            info.id
+          ).padStart(4, '0')}`;
+
+
+        // ----------------------------------------------------
+        // Rarity rank
+        // ----------------------------------------------------
+
+        rankEl.textContent =
+          `Rarity Rank: ${info.rarityRank} / ${info.totalSupply}`;
+
+
+        // ----------------------------------------------------
+        // Traits
+        // ----------------------------------------------------
+
+        traitsEl.innerHTML =
+          info.traits
+            .map((trait) => {
+
+              const name =
+                escapeHtml(
+                  trait.name
+                );
+
+              const label =
+                escapeHtml(
+                  trait.label
+                );
+
+
+              let valueClass =
+                'trait-value';
+
+
+              if (
+                trait.name ===
+                'None'
+              ) {
+                valueClass +=
+                  ' trait-none';
+              }
+
+
+              if (
+                trait.rarityTier ===
+                'rare'
+              ) {
+                valueClass +=
+                  ' trait-rare';
+              }
+
+
+              if (
+                trait.rarityTier ===
+                'legendary'
+              ) {
+                valueClass +=
+                  ' trait-legendary';
+              }
+
+
+              if (
+                trait.rarityTier ===
+                'uncommon'
+              ) {
+                valueClass +=
+                  ' trait-uncommon';
+              }
+
+
+              return `
+                <li>
+                  <span class="trait-label">
+                    ${label}
+                  </span>
+
+                  <span class="${valueClass}">
+                    ${name}
+                  </span>
+                </li>
+              `;
+            })
+            .join('');
+
+
+        jumpInput.value =
+          String(info.id);
+
+
+        setStatus(
+          'Loaded',
+          'success'
+        );
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        setStatus(
+          error.message ||
+          'Failed to load Stonk.',
+          'error'
+        );
+      }
+    }
+
+
+    // ========================================================
+    // RANDOM
+    // ========================================================
+
+    document
+      .getElementById(
+        'randomBtn'
+      )
+      .addEventListener(
+        'click',
+        () => {
+          openNFT(
+            generator.randomId()
+          );
+        }
+      );
+
+
+    // ========================================================
+    // JUMP
+    // ========================================================
+
+    document
+      .getElementById(
+        'jumpBtn'
+      )
+      .addEventListener(
+        'click',
+        () => {
+
+          const id =
+            parseInt(
+              jumpInput.value,
+              10
+            );
+
+          openNFT(id);
+        }
+      );
+
+
+    // ========================================================
+    // ENTER IN INPUT
+    // ========================================================
+
+    jumpInput.addEventListener(
+      'keydown',
+      (event) => {
+
+        if (
+          event.key ===
+          'Enter'
+        ) {
+          const id =
+            parseInt(
+              jumpInput.value,
+              10
+            );
+
+          openNFT(id);
+        }
+      }
+    );
+
+
+    // ========================================================
+    // COPY NFT NUMBER
+    // ========================================================
+
+    document
+      .getElementById(
+        'copyBtn'
+      )
+      .addEventListener(
+        'click',
+        async () => {
+
+          if (
+            currentId === null
+          ) {
+            return;
+          }
+
+
+          try {
+
+            await navigator.clipboard
+              .writeText(
+                String(currentId)
+              );
+
+
+            setStatus(
+              `Copied Stonk #${currentId}`,
+              'success'
+            );
+
+          } catch (error) {
+
+            console.error(
+              error
+            );
+
+            setStatus(
+              'Could not copy number.',
+              'error'
+            );
+          }
+        }
+      );
+
+
+    // ========================================================
+    // LOAD GENERATOR
+    // ========================================================
+
+    async function init() {
+
+      try {
+
+        setStatus(
+          'Loading collection...'
+        );
+
+
+        await generator.load();
+
+
+        ready = true;
+
+
+        setStatus(
+          `Collection loaded: ${generator.totalSupply} Stonks`,
+          'success'
+        );
+
+
+        // Show random Stonk on startup
+        await openNFT(
+          generator.randomId()
+        );
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        setStatus(
+          error.message ||
+          'Failed to load collection.',
+          'error'
+        );
+      }
+    }
+
+
+    init();
+
+  </script>
+
 </body>
 </html>

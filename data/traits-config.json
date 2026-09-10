@@ -1,5 +1,6 @@
 {
   "canvasSize": 512,
+
   "bodyTypes": [
     {
       "id": "body_type_1",
@@ -17,146 +18,501 @@
       "weight": 34
     }
   ],
+
   "categories": [
     {
       "key": "background",
       "folder": "background",
-      "label": "Фон",
+      "label": "Background",
       "required": true,
       "bodyTypeAgnostic": true,
       "options": [
-        { "id": "gradient1",   "file": "gradient.png",   "name": "Gradient 1",  "weight": 10 },
-        { "id": "gradient2",   "file": "gradient2.png",  "name": "Gradient 2",  "weight": 10 },
-        { "id": "gradient3",   "file": "gradient3.png",  "name": "Gradient 3",  "weight": 10 },
-        { "id": "gradient4",   "file": "gradient4.png",  "name": "Gradient 4",  "weight": 10 },
-        { "id": "gradient5",   "file": "gradient5.png",  "name": "Gradient 5",  "weight": 10 },
-        { "id": "gradient6",   "file": "gradient6.png",  "name": "Gradient 6",  "weight": 10 },
-        { "id": "gradient7",   "file": "gradient7.png",  "name": "Gradient 7",  "weight": 10 },
-        { "id": "gradient8",   "file": "gradient8.png",  "name": "Gradient 8",  "weight": 10 },
-        { "id": "gradient9",   "file": "gradient9.png",  "name": "Gradient 9",  "weight": 10 },
-        { "id": "gradient10",  "file": "gradient10.png", "name": "Gradient 10", "weight": 10 }
+        {
+          "id": "gradient1",
+          "file": "gradient.png",
+          "name": "Gradient 1",
+          "weight": 10
+        },
+        {
+          "id": "gradient2",
+          "file": "gradient2.png",
+          "name": "Gradient 2",
+          "weight": 10
+        },
+        {
+          "id": "gradient3",
+          "file": "gradient3.png",
+          "name": "Gradient 3",
+          "weight": 10
+        },
+        {
+          "id": "gradient4",
+          "file": "gradient4.png",
+          "name": "Gradient 4",
+          "weight": 10
+        },
+        {
+          "id": "gradient5",
+          "file": "gradient5.png",
+          "name": "Gradient 5",
+          "weight": 10
+        },
+        {
+          "id": "gradient6",
+          "file": "gradient6.png",
+          "name": "Gradient 6",
+          "weight": 10
+        },
+        {
+          "id": "gradient7",
+          "file": "gradient7.png",
+          "name": "Gradient 7",
+          "weight": 10
+        },
+        {
+          "id": "gradient8",
+          "file": "gradient8.png",
+          "name": "Gradient 8",
+          "weight": 10
+        },
+        {
+          "id": "gradient9",
+          "file": "gradient9.png",
+          "name": "Gradient 9",
+          "weight": 10
+        },
+        {
+          "id": "gradient10",
+          "file": "gradient10.png",
+          "name": "Gradient 10",
+          "weight": 10
+        }
       ]
     },
+
     {
       "key": "chart",
       "folder": "charts",
-      "label": "Графика на фон",
+      "label": "Chart",
       "required": false,
       "bodyTypeAgnostic": true,
       "noneWeight": 40,
       "options": [
-        { "id": "chart1", "file": "chart1.png", "name": "Chart 1", "weight": 15 },
-        { "id": "chart2", "file": "chart2.png", "name": "Chart 2", "weight": 15 },
-        { "id": "chart3", "file": "chart3.png", "name": "Chart 3", "weight": 15 },
-        { "id": "chart4", "file": "chart4.png", "name": "Chart 4", "weight": 15 },
-        { "id": "chart5", "file": "chart5.png", "name": "Chart 5", "weight": 15 }
+        {
+          "id": "chart1",
+          "file": "chart1.png",
+          "name": "Chart 1",
+          "weight": 15
+        },
+        {
+          "id": "chart2",
+          "file": "chart2.png",
+          "name": "Chart 2",
+          "weight": 15
+        },
+        {
+          "id": "chart3",
+          "file": "chart3.png",
+          "name": "Chart 3",
+          "weight": 15
+        },
+        {
+          "id": "chart4",
+          "file": "chart4.png",
+          "name": "Chart 4",
+          "weight": 15
+        },
+        {
+          "id": "chart5",
+          "file": "chart5.png",
+          "name": "Chart 5",
+          "weight": 15
+        }
       ]
     },
+
     {
       "key": "body",
-      "label": "Тяло (свещ)",
+      "label": "Candle",
       "required": true,
       "bodyTypeAgnostic": false,
       "options": [
-        { "id": "golden", "file": "goldencandle%TYPE%.png", "name": "Златна свещ",  "weight": 4,  "rarityTier": "legendary" },
-        { "id": "green",  "file": "greencandle%TYPE%.png",  "name": "Зелена свещ",  "weight": 32 },
-        { "id": "red",    "file": "redcandle%TYPE%.png",    "name": "Червена свещ", "weight": 32 }
+        {
+          "id": "golden",
+          "file": "goldencandle%TYPE%.png",
+          "name": "Golden Candle",
+          "weight": 4,
+          "rarityTier": "legendary"
+        },
+        {
+          "id": "green",
+          "file": "greencandle%TYPE%.png",
+          "name": "Bullish Candle",
+          "weight": 32
+        },
+        {
+          "id": "red",
+          "file": "redcandle%TYPE%.png",
+          "name": "Bearish Candle",
+          "weight": 32
+        }
       ]
     },
+
     {
       "key": "eyes",
-      "label": "Очи",
+      "label": "Eyes",
       "required": false,
       "bodyTypeAgnostic": false,
       "noneWeight": 30,
       "options": [
-        { "id": "eyes1",  "file": "eyes1.png",  "name": "Eyes 1",  "weight": 1 },
-        { "id": "eyes2",  "file": "eyes2.png",  "name": "Eyes 2",  "weight": 1 },
-        { "id": "eyes3",  "file": "eyes3.png",  "name": "Eyes 3",  "weight": 1 },
-        { "id": "eyes4",  "file": "eyes4.png",  "name": "Eyes 4",  "weight": 1 },
-        { "id": "eyes5",  "file": "eyes5.png",  "name": "Eyes 5",  "weight": 1 },
-        { "id": "eyes6",  "file": "eyes6.png",  "name": "Eyes 6",  "weight": 1 },
-        { "id": "eyes7",  "file": "eyes7.png",  "name": "Eyes 7",  "weight": 1 },
-        { "id": "eyes8",  "file": "eyes8.png",  "name": "Eyes 8",  "weight": 1 },
-        { "id": "eyes9",  "file": "eyes9.png",  "name": "Eyes 9",  "weight": 1 },
-        { "id": "eyes10", "file": "eyes10.png", "name": "Eyes 10", "weight": 1 },
-        { "id": "eyes11", "file": "eyes11.png", "name": "Eyes 11", "weight": 1 },
-        { "id": "eyes12", "file": "eyes12.png", "name": "Eyes 12", "weight": 1 },
-        { "id": "eyes13", "file": "eyes13.png", "name": "Eyes 13", "weight": 1 },
-        { "id": "eyes14", "file": "eyes14.png", "name": "Eyes 14", "weight": 1 }
+        {
+          "id": "eyes1",
+          "file": "eyes1.png",
+          "name": "Light Blue",
+          "weight": 1
+        },
+        {
+          "id": "eyes2",
+          "file": "eyes2.png",
+          "name": "Purple",
+          "weight": 1
+        },
+        {
+          "id": "eyes3",
+          "file": "eyes3.png",
+          "name": "Green",
+          "weight": 1
+        },
+        {
+          "id": "eyes4",
+          "file": "eyes4.png",
+          "name": "Golden",
+          "weight": 1
+        },
+        {
+          "id": "eyes5",
+          "file": "eyes5.png",
+          "name": "Tired",
+          "weight": 1
+        },
+        {
+          "id": "eyes6",
+          "file": "eyes6.png",
+          "name": "Monster",
+          "weight": 1
+        },
+        {
+          "id": "eyes7",
+          "file": "eyes7.png",
+          "name": "Thug Life",
+          "weight": 1
+        },
+        {
+          "id": "eyes8",
+          "file": "eyes8.png",
+          "name": "Nerd",
+          "weight": 1
+        },
+        {
+          "id": "eyes9",
+          "file": "eyes9.png",
+          "name": "Vice City",
+          "weight": 1
+        },
+        {
+          "id": "eyes10",
+          "file": "eyes10.png",
+          "name": "Sunrise",
+          "weight": 1
+        },
+        {
+          "id": "eyes11",
+          "file": "eyes11.png",
+          "name": "Neon",
+          "weight": 1
+        },
+        {
+          "id": "eyes12",
+          "file": "eyes12.png",
+          "name": "Clumsy",
+          "weight": 1
+        },
+        {
+          "id": "eyes13",
+          "file": "eyes13.png",
+          "name": "Wise",
+          "weight": 1
+        },
+        {
+          "id": "eyes14",
+          "file": "eyes14.png",
+          "name": "Confucius",
+          "weight": 1
+        }
       ]
     },
+
     {
       "key": "faceFeature",
-      "label": "Лицева черта",
+      "label": "Face Feature",
       "required": false,
       "bodyTypeAgnostic": false,
       "noneWeight": 50,
       "options": [
-        { "id": "feature1", "file": "feature1.png", "name": "Feature 1", "weight": 1 },
-        { "id": "feature2", "file": "feature2.png", "name": "Feature 2", "weight": 1 },
-        { "id": "feature3", "file": "feature3.png", "name": "Feature 3", "weight": 1 },
-        { "id": "feature4", "file": "feature4.png", "name": "Feature 4", "weight": 1 },
-        { "id": "feature5", "file": "feature5.png", "name": "Feature 5", "weight": 1 },
-        { "id": "feature6", "file": "feature6.png", "name": "Feature 6", "weight": 1 },
-        { "id": "feature7", "file": "feature7.png", "name": "Feature 7", "weight": 1 },
-        { "id": "feature8", "file": "feature8.png", "name": "Feature 8", "weight": 1 }
+        {
+          "id": "feature1",
+          "file": "feature1.png",
+          "name": "Smoke",
+          "weight": 1
+        },
+        {
+          "id": "feature2",
+          "file": "feature2.png",
+          "name": "Brown Mustache",
+          "weight": 1
+        },
+        {
+          "id": "feature3",
+          "file": "feature3.png",
+          "name": "Unibrow",
+          "weight": 1
+        },
+        {
+          "id": "feature4",
+          "file": "feature4.png",
+          "name": "Punkbrow",
+          "weight": 1
+        },
+        {
+          "id": "feature5",
+          "file": "feature5.png",
+          "name": "Goatee",
+          "weight": 1
+        },
+        {
+          "id": "feature6",
+          "file": "feature6.png",
+          "name": "Viking",
+          "weight": 1
+        },
+        {
+          "id": "feature7",
+          "file": "feature7.png",
+          "name": "Beard",
+          "weight": 1
+        },
+        {
+          "id": "feature8",
+          "file": "feature8.png",
+          "name": "Gandalf",
+          "weight": 1
+        }
       ]
     },
+
     {
       "key": "dress",
-      "label": "Облекло",
+      "label": "Dress",
       "required": false,
       "bodyTypeAgnostic": false,
       "noneWeight": 40,
       "options": [
-        { "id": "dress1", "file": "dress1.png", "name": "Dress 1", "weight": 1 },
-        { "id": "dress2", "file": "dress2.png", "name": "Dress 2", "weight": 1 },
-        { "id": "dress3", "file": "dress3.png", "name": "Dress 3", "weight": 1 },
-        { "id": "dress4", "file": "dress4.png", "name": "Dress 4", "weight": 1 },
-        { "id": "dress5", "file": "dress5.png", "name": "Dress 5", "weight": 1 },
-        { "id": "dress6", "file": "dress6.png", "name": "Dress 6", "weight": 1 },
-        { "id": "dress7", "file": "dress7.png", "name": "Dress 7", "weight": 1 },
-        { "id": "dress8", "file": "dress8.png", "name": "Dress 8", "weight": 1 }
+        {
+          "id": "dress1",
+          "file": "dress1.png",
+          "name": "Formal Blue",
+          "weight": 1
+        },
+        {
+          "id": "dress2",
+          "file": "dress2.png",
+          "name": "Formal Red",
+          "weight": 1
+        },
+        {
+          "id": "dress3",
+          "file": "dress3.png",
+          "name": "Navy Blue",
+          "weight": 1
+        },
+        {
+          "id": "dress4",
+          "file": "dress4.png",
+          "name": "Formal Navy",
+          "weight": 1
+        },
+        {
+          "id": "dress5",
+          "file": "dress5.png",
+          "name": "Swim Pink",
+          "weight": 1
+        },
+        {
+          "id": "dress6",
+          "file": "dress6.png",
+          "name": "Swim Red",
+          "weight": 1
+        },
+        {
+          "id": "dress7",
+          "file": "dress7.png",
+          "name": "Golden Chain",
+          "weight": 1
+        },
+        {
+          "id": "dress8",
+          "file": "dress8.png",
+          "name": "Silver Chain",
+          "weight": 1
+        }
       ]
     },
+
     {
       "key": "hat",
-      "label": "Шапка",
+      "label": "Hat",
       "required": false,
       "bodyTypeAgnostic": false,
       "noneWeight": 25,
       "options": [
-        { "id": "hat1",  "file": "hat1.png",  "name": "Hat 1",  "weight": 1 },
-        { "id": "hat2",  "file": "hat2.png",  "name": "Hat 2",  "weight": 1 },
-        { "id": "hat3",  "file": "hat3.png",  "name": "Hat 3",  "weight": 1 },
-        { "id": "hat4",  "file": "hat4.png",  "name": "Hat 4",  "weight": 1 },
-        { "id": "hat5",  "file": "hat5.png",  "name": "Hat 5",  "weight": 1 },
-        { "id": "hat6",  "file": "hat6.png",  "name": "Hat 6",  "weight": 1 },
-        { "id": "hat7",  "file": "hat7.png",  "name": "Hat 7",  "weight": 1 },
-        { "id": "hat8",  "file": "hat8.png",  "name": "Hat 8",  "weight": 1 },
-        { "id": "hat9",  "file": "hat9.png",  "name": "Hat 9",  "weight": 1 },
-        { "id": "hat10", "file": "hat10.png", "name": "Hat 10", "weight": 1 },
-        { "id": "hat11", "file": "hat11.png", "name": "Hat 11", "weight": 1 },
-        { "id": "hat12", "file": "hat12.png", "name": "Hat 12", "weight": 1 },
-        { "id": "hat13", "file": "hat13.png", "name": "Hat 13", "weight": 1 },
-        { "id": "hat14", "file": "hat14.png", "name": "Hat 14", "weight": 1 },
-        { "id": "hat15", "file": "hat15.png", "name": "Hat 15", "weight": 1 },
-        { "id": "hat16", "file": "hat16.png", "name": "Hat 16", "weight": 1 },
-        { "id": "hat17", "file": "hat17.png", "name": "Hat 17", "weight": 1 }
+        {
+          "id": "hat1",
+          "file": "hat1.png",
+          "name": "Uncle Sam",
+          "weight": 1
+        },
+        {
+          "id": "hat2",
+          "file": "hat2.png",
+          "name": "Bachelor",
+          "weight": 1
+        },
+        {
+          "id": "hat3",
+          "file": "hat3.png",
+          "name": "Monopoly",
+          "weight": 1
+        },
+        {
+          "id": "hat4",
+          "file": "hat4.png",
+          "name": "Financier",
+          "weight": 1
+        },
+        {
+          "id": "hat5",
+          "file": "hat5.png",
+          "name": "Gentleman",
+          "weight": 1
+        },
+        {
+          "id": "hat6",
+          "file": "hat6.png",
+          "name": "Crown",
+          "weight": 1,
+          "rarityTier": "legendary"
+        },
+        {
+          "id": "hat7",
+          "file": "hat7.png",
+          "name": "Tsar",
+          "weight": 1
+        },
+        {
+          "id": "hat8",
+          "file": "hat8.png",
+          "name": "Minion",
+          "weight": 1
+        },
+        {
+          "id": "hat9",
+          "file": "hat9.png",
+          "name": "Box",
+          "weight": 1
+        },
+        {
+          "id": "hat10",
+          "file": "hat10.png",
+          "name": "Cap",
+          "weight": 1
+        },
+        {
+          "id": "hat11",
+          "file": "hat11.png",
+          "name": "Clown",
+          "weight": 1
+        },
+        {
+          "id": "hat12",
+          "file": "hat12.png",
+          "name": "Sushi",
+          "weight": 1
+        },
+        {
+          "id": "hat13",
+          "file": "hat13.png",
+          "name": "Samurai",
+          "weight": 1
+        },
+        {
+          "id": "hat14",
+          "file": "hat14.png",
+          "name": "Red Phones",
+          "weight": 1
+        },
+        {
+          "id": "hat15",
+          "file": "hat15.png",
+          "name": "Techno Phones",
+          "weight": 1
+        },
+        {
+          "id": "hat16",
+          "file": "hat16.png",
+          "name": "Phonk Phones",
+          "weight": 1
+        },
+        {
+          "id": "hat17",
+          "file": "hat17.png",
+          "name": "Santa",
+          "weight": 1
+        }
       ]
     },
+
     {
       "key": "bag",
-      "label": "Аксесоар",
+      "label": "Bag",
       "required": false,
       "bodyTypeAgnostic": false,
       "noneWeight": 50,
       "options": [
-        { "id": "bag1", "file": "bag1.png", "name": "Bag 1", "weight": 1 },
-        { "id": "bag2", "file": "bag2.png", "name": "Bag 2", "weight": 1 },
-        { "id": "bag3", "file": "bag3.png", "name": "Bag 3", "weight": 1 },
-        { "id": "bag4", "file": "bag4.png", "name": "Bag 4", "weight": 1 }
+        {
+          "id": "bag1",
+          "file": "bag1.png",
+          "name": "Briefcase",
+          "weight": 1
+        },
+        {
+          "id": "bag2",
+          "file": "bag2.png",
+          "name": "Suitcase",
+          "weight": 1
+        },
+        {
+          "id": "bag3",
+          "file": "bag3.png",
+          "name": "Laptop",
+          "weight": 1
+        },
+        {
+          "id": "bag4",
+          "file": "bag4.png",
+          "name": "Security Safe",
+          "weight": 1
+        }
       ]
     }
   ]
