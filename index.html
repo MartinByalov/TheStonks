@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Stonks — демо на генератора</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #171a21;
+    --border: #2a2f3a;
+    --green: #16c784;
+    --red: #ea3943;
+    --text: #e8eaed;
+    --muted: #9aa0ac;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 0%, #1c2130, var(--bg));
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px 16px;
+  }
+  h1 { margin: 0; font-size: 28px; letter-spacing: 0.5px; }
+  p.sub { margin: 0; color: var(--muted); text-align: center; max-width: 480px; }
+
+  #stonkFab {
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f1115;
+    background: var(--green);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(22, 199, 132, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  #stonkFab:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(22, 199, 132, 0.45); }
+  #stonkFab:active { transform: translateY(0); }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 10, 0.72);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    padding: 22px;
+    position: relative;
+    animation: pop 0.18s ease;
+  }
+  @keyframes pop {
+    from { transform: scale(0.92); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+
+  .modal h2 { margin: 0 0 2px; font-size: 20px; }
+  .modal .rank { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+
+  .canvas-wrap {
+    display: flex;
+    justify-content: center;
+    background: #0b0d12;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+  canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    width: 260px;
+    height: 260px;
+  }
+
+  .traits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+    font-size: 13px;
+  }
+  .traits li { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--border); padding-bottom: 4px; }
+  .traits li span.label { color: var(--muted); }
+  .tier-rare span.value, .tier-legendary span.value { color: #f0b90b; font-weight: 600; }
+  .tier-uncommon span.value { color: #58a6ff; }
+
+  .modal-actions { display: flex; gap: 10px; }
+  .modal-actions button {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #1f2430;
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .modal-actions button.primary { background: var(--green); color: #0f1115; border: none; font-weight: 600; }
+  .modal-actions button:hover { filter: brightness(1.08); }
+
+  .close-x {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .jump-row { display:flex; gap:8px; margin-top: 10px; }
+  .jump-row input {
+    flex: 1;
+    background: #0b0d12;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  .jump-row button { border-radius: 8px; border: 1px solid var(--border); background: #1f2430; color: var(--text); padding: 8px 12px; cursor:pointer; font-size: 13px; }
+</style>
+</head>
+<body>
+
+  <h1>🕹️ The Stonks — Easter Egg демо</h1>
+  <p class="sub">
+    Натисни бутона, за да изтеглиш случаен Stonk от колекцията от 10 000 уникални
+    пикселови персонажа. Това е примерна интеграция — копирай логиката в своя сайт.
+  </p>
+
+  <button id="stonkFab">🎲 Покажи ми моя Stonk</button>
+
+  <div class="overlay" id="stonkOverlay">
+    <div class="modal">
+      <button class="close-x" id="closeModal">✕</button>
+      <h2 id="stonkTitle">Stonk #0000</h2>
+      <div class="rank" id="stonkRank">Rarity rank —</div>
+
+      <div class="canvas-wrap">
+        <canvas id="stonkCanvas" width="360" height="360"></canvas>
+      </div>
+
+      <ul class="traits" id="stonkTraits"></ul>
+
+      <div class="modal-actions">
+        <button id="rerollBtn">🎲 Друг случаен</button>
+        <button id="closeBtn" class="primary">Затвори</button>
+      </div>
+
+      <div class="jump-row">
+        <input id="jumpInput" type="number" min="1" max="10000" placeholder="Отиди на # (1-10000)">
+        <button id="jumpBtn">Виж</button>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+  import { StonkGenerator } from './js/stonk-generator.js';
+
+  const gen = new StonkGenerator({ basePath: '.' });
+  const overlay = document.getElementById('stonkOverlay');
+  const canvas = document.getElementById('stonkCanvas');
+  const titleEl = document.getElementById('stonkTitle');
+  const rankEl = document.getElementById('stonkRank');
+  const traitsEl = document.getElementById('stonkTraits');
+
+  let ready = gen.load(); // fetch-ва config + collection веднъж
+
+  async function openStonk(id) {
+    await ready;
+    const info = gen.getStonk(id);
+    await gen.render(id, canvas, { size: 360 });
+
+    titleEl.textContent = `Stonk #${String(info.id).padStart(4, '0')}`;
+    rankEl.textContent = `Rarity rank: ${info.rarityRank} / ${info.totalSupply}`;
+
+    traitsEl.innerHTML = info.traits
+      .map(
+        (t) => `<li class="tier-${t.rarityTier}">
+          <span class="label">${t.label}</span>
+          <span class="value">${t.name}</span>
+        </li>`
+      )
+      .join('');
+
+    overlay.classList.add('open');
+  }
+
+  document.getElementById('stonkFab').addEventListener('click', async () => {
+    await ready;
+    openStonk(gen.randomId());
+  });
+
+  document.getElementById('rerollBtn').addEventListener('click', async () => {
+    await ready;
+    openStonk(gen.randomId());
+  });
+
+  document.getElementById('jumpBtn').addEventListener('click', () => {
+    const val = parseInt(document.getElementById('jumpInput').value, 10);
+    if (val >= 1 && val <= 10000) openStonk(val);
+  });
+
+  function closeModal() { overlay.classList.remove('open'); }
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  document.getElementById('closeBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+</script>
+</body>
+</html>

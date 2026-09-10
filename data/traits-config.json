@@ -1,0 +1,545 @@
+{
+  "canvasSize": 24,
+  "categories": [
+    {
+      "key": "background",
+      "folder": "background",
+      "label": "Фон",
+      "required": true,
+      "options": [
+        {
+          "id": "gradient",
+          "file": "gradient.png",
+          "name": "Лилав залез",
+          "weight": 10
+        },
+        {
+          "id": "gradient2",
+          "file": "gradient2.png",
+          "name": "Розово небе",
+          "weight": 10
+        },
+        {
+          "id": "gradient3",
+          "file": "gradient3.png",
+          "name": "Океан",
+          "weight": 10
+        },
+        {
+          "id": "gradient4",
+          "file": "gradient4.png",
+          "name": "Син здрач",
+          "weight": 10
+        },
+        {
+          "id": "gradient5",
+          "file": "gradient5.png",
+          "name": "Пясък",
+          "weight": 10
+        },
+        {
+          "id": "gradient6",
+          "file": "gradient6.png",
+          "name": "Магента",
+          "weight": 10
+        },
+        {
+          "id": "gradient7",
+          "file": "gradient7.png",
+          "name": "Гора",
+          "weight": 10
+        },
+        {
+          "id": "gradient8",
+          "file": "gradient8.png",
+          "name": "Огън",
+          "weight": 8
+        },
+        {
+          "id": "gradient9",
+          "file": "gradient9.png",
+          "name": "Мента",
+          "weight": 10
+        },
+        {
+          "id": "gradient10",
+          "file": "gradient10.png",
+          "name": "Лайм",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "key": "chart",
+      "label": "Графика на фон",
+      "required": false,
+      "noneWeight": 45,
+      "options": [
+        {
+          "id": "uptrend",
+          "style": "uptrend",
+          "name": "Възходящ тренд",
+          "weight": 22
+        },
+        {
+          "id": "downtrend",
+          "style": "downtrend",
+          "name": "Низходящ тренд",
+          "weight": 18
+        },
+        {
+          "id": "choppy",
+          "style": "choppy",
+          "name": "Волатилност (choppy)",
+          "weight": 15
+        }
+      ],
+      "renderMode": "procedural",
+      "_note": "Рисува се процедурно на канвас (права/начупена линия, зелено/червено), не е PNG слой. style контролира тенденцията на случайното движение."
+    },
+    {
+      "key": "body",
+      "folder": "body",
+      "label": "Тяло (свещ)",
+      "required": true,
+      "options": [
+        {
+          "id": "goldencandle1",
+          "file": "goldencandle1.png",
+          "name": "Златна свещ",
+          "weight": 4,
+          "rarityTier": "legendary"
+        },
+        {
+          "id": "greencandle1",
+          "file": "greencandle1.png",
+          "name": "Зелена свещ I",
+          "weight": 16
+        },
+        {
+          "id": "greencandle2",
+          "file": "greencandle2.png",
+          "name": "Зелена свещ II",
+          "weight": 16
+        },
+        {
+          "id": "greencandle3",
+          "file": "greencandle3.png",
+          "name": "Зелена свещ III",
+          "weight": 16
+        },
+        {
+          "id": "redcandle1",
+          "file": "redcandle1.png",
+          "name": "Червена свещ I",
+          "weight": 16
+        },
+        {
+          "id": "redcandle2",
+          "file": "redcandle2.png",
+          "name": "Червена свещ II",
+          "weight": 16
+        },
+        {
+          "id": "redcandle3",
+          "file": "redcandle3.png",
+          "name": "Червена свещ III",
+          "weight": 16
+        }
+      ]
+    },
+    {
+      "key": "dress",
+      "folder": "dress",
+      "label": "Облекло",
+      "required": false,
+      "noneWeight": 30,
+      "options": [
+        {
+          "id": "dress1",
+          "file": "dress1.png",
+          "name": "Черна вратовръзка",
+          "weight": 15
+        },
+        {
+          "id": "dress2",
+          "file": "dress2.png",
+          "name": "Червена вратовръзка",
+          "weight": 15
+        },
+        {
+          "id": "dress3",
+          "file": "dress3.png",
+          "name": "Синя вратовръзка",
+          "weight": 13
+        },
+        {
+          "id": "dress4",
+          "file": "dress4.png",
+          "name": "Лилава вратовръзка",
+          "weight": 13
+        },
+        {
+          "id": "dress5",
+          "file": "dress5.png",
+          "name": "Розова панделка",
+          "weight": 8,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "dress6",
+          "file": "dress6.png",
+          "name": "Червена панделка",
+          "weight": 8,
+          "rarityTier": "rare"
+        }
+      ]
+    },
+    {
+      "key": "bodyfeature",
+      "folder": "bodyfeature",
+      "label": "Аксесоар на тялото",
+      "required": false,
+      "noneWeight": 70,
+      "options": [
+        {
+          "id": "chain1",
+          "file": "chain1.png",
+          "name": "Златна верижка",
+          "weight": 10,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "chain2",
+          "file": "chain2.png",
+          "name": "Сребърна верижка",
+          "weight": 9,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "cigar1",
+          "file": "cigar1.png",
+          "name": "Пура",
+          "weight": 11,
+          "rarityTier": "uncommon"
+        }
+      ]
+    },
+    {
+      "key": "eyes",
+      "folder": "eyes",
+      "label": "Очи (ефект)",
+      "required": false,
+      "noneWeight": 25,
+      "options": [
+        {
+          "id": "eyes1",
+          "file": "eyes1.png",
+          "name": "Сини точки",
+          "weight": 7
+        },
+        {
+          "id": "eyes2",
+          "file": "eyes2.png",
+          "name": "Лилави точки",
+          "weight": 7
+        },
+        {
+          "id": "eyes3",
+          "file": "eyes3.png",
+          "name": "Зелени точки",
+          "weight": 7
+        },
+        {
+          "id": "eyes4",
+          "file": "eyes4.png",
+          "name": "Оранжеви точки",
+          "weight": 6
+        },
+        {
+          "id": "eyes5",
+          "file": "eyes5.png",
+          "name": "Червени точки",
+          "weight": 6
+        },
+        {
+          "id": "eyes6",
+          "file": "eyes6.png",
+          "name": "Жълти точки",
+          "weight": 6
+        },
+        {
+          "id": "eyes7",
+          "file": "eyes7.png",
+          "name": "Слънчеви очила (dab)",
+          "weight": 9
+        },
+        {
+          "id": "eyes8",
+          "file": "eyes8.png",
+          "name": "Слънчеви очила II",
+          "weight": 9
+        },
+        {
+          "id": "eyes9",
+          "file": "eyes9.png",
+          "name": "Затворени очи",
+          "weight": 8
+        },
+        {
+          "id": "eyes10",
+          "file": "eyes10.png",
+          "name": "Замаян поглед",
+          "weight": 5,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "eyes11",
+          "file": "eyes11.png",
+          "name": "$$$ очи",
+          "weight": 5,
+          "rarityTier": "rare"
+        }
+      ]
+    },
+    {
+      "key": "facefeature",
+      "folder": "facefeature",
+      "label": "Лицева черта",
+      "required": false,
+      "noneWeight": 40,
+      "options": [
+        {
+          "id": "facefeature1",
+          "file": "facefeature1.png",
+          "name": "Мустак (кафяв)",
+          "weight": 9
+        },
+        {
+          "id": "facefeature2",
+          "file": "facefeature2.png",
+          "name": "Вежди (тъмночервени)",
+          "weight": 8
+        },
+        {
+          "id": "facefeature3",
+          "file": "facefeature3.png",
+          "name": "Вежди (оранжеви)",
+          "weight": 8
+        },
+        {
+          "id": "facefeature5",
+          "file": "facefeature5.png",
+          "name": "Очила с мустак",
+          "weight": 5,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "facefeature6",
+          "file": "facefeature6.png",
+          "name": "Очила с мустак II",
+          "weight": 5,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "facefeature7",
+          "file": "facefeature7.png",
+          "name": "Златен зъб",
+          "weight": 4,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "facefeature8",
+          "file": "facefeature8.png",
+          "name": "Качулка (бежова)",
+          "weight": 4,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "facefeature9",
+          "file": "facefeature9.png",
+          "name": "Качулка (тъмна)",
+          "weight": 4,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "facefeature10",
+          "file": "facefeature10.png",
+          "name": "Качулка (сива)",
+          "weight": 4,
+          "rarityTier": "uncommon"
+        }
+      ]
+    },
+    {
+      "key": "hat",
+      "folder": "hat",
+      "label": "Шапка",
+      "required": false,
+      "noneWeight": 20,
+      "options": [
+        {
+          "id": "hat1",
+          "file": "hat1.png",
+          "name": "Ирокез",
+          "weight": 6,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "hat10",
+          "file": "hat10.png",
+          "name": "Черна шапка",
+          "weight": 8
+        },
+        {
+          "id": "hat11",
+          "file": "hat11.png",
+          "name": "Синя шапка",
+          "weight": 8
+        },
+        {
+          "id": "hat12",
+          "file": "hat12.png",
+          "name": "Шапка на шут",
+          "weight": 5,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "hat13",
+          "file": "hat13.png",
+          "name": "Монокъл (черен)",
+          "weight": 6
+        },
+        {
+          "id": "hat14",
+          "file": "hat14.png",
+          "name": "Монокъл (сив)",
+          "weight": 6
+        },
+        {
+          "id": "hat15",
+          "file": "hat15.png",
+          "name": "Слушалки (червени)",
+          "weight": 6
+        },
+        {
+          "id": "hat16",
+          "file": "hat16.png",
+          "name": "Слушалки (лилави)",
+          "weight": 6
+        },
+        {
+          "id": "hat17",
+          "file": "hat17.png",
+          "name": "Слушалки (сини)",
+          "weight": 6
+        },
+        {
+          "id": "hat18",
+          "file": "hat18.png",
+          "name": "Обеца",
+          "weight": 6
+        },
+        {
+          "id": "hat2",
+          "file": "hat2.png",
+          "name": "Дипломантска шапка",
+          "weight": 5,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "hat3",
+          "file": "hat3.png",
+          "name": "Цилиндър (черен)",
+          "weight": 6
+        },
+        {
+          "id": "hat4",
+          "file": "hat4.png",
+          "name": "Цилиндър (синя лента)",
+          "weight": 6
+        },
+        {
+          "id": "hat5",
+          "file": "hat5.png",
+          "name": "Цилиндър (жълта лента)",
+          "weight": 6
+        },
+        {
+          "id": "hat6",
+          "file": "hat6.png",
+          "name": "Корона (златна)",
+          "weight": 3,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "hat7",
+          "file": "hat7.png",
+          "name": "Корона (жълта)",
+          "weight": 3,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "hat8",
+          "file": "hat8.png",
+          "name": "Златна лента",
+          "weight": 5,
+          "rarityTier": "uncommon"
+        },
+        {
+          "id": "hat9",
+          "file": "hat9.png",
+          "name": "Кутиена глава",
+          "weight": 3,
+          "rarityTier": "rare"
+        },
+        {
+          "id": "hatsanta",
+          "file": "hatsanta.png",
+          "name": "Шапка на Дядо Коледа",
+          "weight": 2,
+          "rarityTier": "legendary"
+        }
+      ]
+    },
+    {
+      "key": "bag",
+      "folder": "bag",
+      "label": "Аксесоар в ръка",
+      "required": false,
+      "noneWeight": 38,
+      "options": [
+        {
+          "id": "bag1",
+          "file": "bag1.png",
+          "name": "Фотоапарат",
+          "weight": 18
+        },
+        {
+          "id": "bag2",
+          "file": "bag2.png",
+          "name": "Куфарче",
+          "weight": 18
+        },
+        {
+          "id": "bag3",
+          "file": "bag3.png",
+          "name": "Лаптоп",
+          "weight": 14
+        },
+        {
+          "id": "bag4",
+          "file": "bag4.png",
+          "name": "Лаптоп с графика",
+          "weight": 12,
+          "rarityTier": "uncommon"
+        }
+      ]
+    }
+  ],
+  "excludedAssets": [
+    "candlebody2 hats/hat1.png",
+    "facefeature/facefeature4.png"
+  ],
+  "excludedAssetsReason": "candlebody2 hats/hat1.png: позициониран е за тяло-вариант, който липсва в пакета с ресурси (изкача над главата на всички налични тела). facefeature4.png (сини точки): не се закача никъде добре - виси откъснат над главата при всички 7 тела, дори след корекция на височината. И двата са изключени от генератора, за да няма чупени изображения."
+}
